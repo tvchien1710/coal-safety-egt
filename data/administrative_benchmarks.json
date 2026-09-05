@@ -1,0 +1,39 @@
+{
+  "project": "Evolutionary Game Analysis of Coal Mine Safety Supervision in a Transition Economy",
+  "sources": [
+    {
+      "agency": "Vietnam National Coal - Mineral Industries Holding Corporation Limited (VINACOMIN / TKV)",
+      "reports": [
+        "Annual Financial Reports 2018-2024",
+        "Occupational Safety and Health Summary Report 2016-2020",
+        "Technical Safety and Ventilation Reports (Mao Khe, Ha Lam, Nam Mau)"
+      ],
+      "metrics": {
+        "annual_commercial_coal_output_mt": "44 - 48",
+        "underground_mining_proportion_pct": "55% - 62%",
+        "safety_investment_pct_of_cost": "8.5% - 11.0%",
+        "cost_per_ton_vnd": "180,000 - 220,000"
+      }
+    },
+    {
+      "agency": "Ministry of Labour, Invalids and Social Affairs (MOLISA)",
+      "reports": [
+        "Annual Labor Accidents Reports 2017-2023",
+        "Press Release on National Industrial Safety 2023"
+      ],
+      "metrics": {
+        "serious_accidents_annual_average": "15 - 22",
+        "fatalities_annual_average": "18 - 28"
+      }
+    },
+    {
+      "legal_framework": [
+        "Law on Occupational Safety and Health No. 84/2015/QH13",
+        "Decree No. 88/2020/ND-CP on occupational safety penalties",
+        "Decree No. 12/2022/ND-CP on administrative sanctions in labor and safety",
+        "Decree No. 90/2020/ND-CP on bureaucratic performance evaluation and classification",
+        "Regulation No. 69-QD/TW of the Politburo on cadre discipline and accountability"
+      ]
+    }
+  ]
+}

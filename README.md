@@ -1,29 +1,38 @@
-# Evolutionary Game Analysis of Coal Mine Safety Supervision in a Transition Economy: Pure Python Replication Package
+# Evolutionary Game Analysis of Coal Mine Safety Supervision in a Transition Economy: Replication Package
 
-This repository contains the complete 100% pure Python simulation code, parameter input datasets, and reproduction workflow for the academic paper:
-> *Evolutionary Game Analysis of Coal Mine Safety Supervision in a Transition Economy: The Roles of Institutional Costs, Political Accountability, and Reputation Incentives*  
+Official Repository: [https://github.com/tvchien1710/coal-safety-egt](https://github.com/tvchien1710/coal-safety-egt)
+
+This repository contains the complete pure Python simulation code, parameter input datasets, and reproduction workflow for the academic paper:
+> **"Phân tích trò chơi tiến hóa về giám sát an toàn mỏ than trong nền kinh tế chuyển đổi: Vai trò của chi phí thể chế, trách nhiệm chính trị và cơ chế thưởng danh tiếng"**  
+> *(Evolutionary Game Analysis of Coal Mine Safety Supervision in a Transition Economy: The Roles of Institutional Costs, Political Accountability, and Reputation Incentives)*  
+> Target Journal: **Safety Science / Resources Policy (Elsevier - Q1, IF: 6.1+)**
 
 ---
 
 ## 1. System Requirements & Environment Setup
 
-- **Language:** Python 3.9, 3.10, 3.11, or 3.12
-- **Required Python Libraries:**
-  - `numpy >= 1.22.0`
-  - `scipy >= 1.8.0`
-  - `matplotlib >= 3.5.0`
-  - `pandas >= 1.4.0`
+### 1.1 Python Version
+- **Python >= 3.8** (Fully verified and tested on Python 3.9, 3.10, 3.11, and 3.12).
 
-### Quick Installation (pip)
+### 1.2 Library Installation
+You can install dependencies using either `pip` or `conda`:
+
+#### Option A: Pip Installation (Recommended)
 ```bash
 pip install -r requirements.txt
 ```
 
-### Conda Environment Setup
+#### Option B: Conda Environment Setup
 ```bash
 conda env create -f environment.yml
 conda activate coal_safety_egt
 ```
+
+Required dependencies:
+- `numpy >= 1.22.0`
+- `scipy >= 1.8.0`
+- `matplotlib >= 3.5.0`
+- `pandas >= 1.4.0`
 
 ---
 
@@ -31,69 +40,94 @@ conda activate coal_safety_egt
 
 ```text
 coal-safety-egt/
-├── README.md                          # This replication guide
+├── LICENSE                            # MIT Open Source License
+├── README.md                          # Comprehensive replication documentation
 ├── requirements.txt                   # Pip dependency specifications
 ├── environment.yml                    # Conda environment specifications
-├── .gitignore                         # Git exclusion rules
-├── main.py                            # Master Python replication script
+├── .gitignore                         # Git exclusion rules (keeps repository clean)
+├── main.py                            # Master Python CLI replication script
 ├── data/
 │   ├── administrative_benchmarks.json # Administrative coal sector data (TKV & MOLISA)
 │   └── delphi_survey_data.json        # Anonymized two-round Delphi expert survey data
-└── figures/                           # High-resolution vector output figures (SVG & PNG)
+└── figures/                           # Publication-grade vector (SVG) and 300 DPI (PNG) figures
+    ├── fig1_phase_H0.svg / .png       # Scenario 1 phase portrait (H = 0, trap E1)
+    ├── fig2_phase_H8.svg / .png       # Scenario 2 phase portrait (H = 10, safe E4)
+    ├── fig3_phase_H12.svg / .png      # Scenario 3 phase portrait (H = 14, fast convergence)
+    ├── fig4_timeseries.svg / .png     # Comparative dynamic time-series trajectories
+    ├── fig5_sensitivity_FH.svg / .png # Two-factor interaction heatmap over (F, H) space
+    └── fig6_sensitivity_G.svg / .png  # Linear marginal trade-off between G and F*
 ```
 
 ---
 
-## 3. One-Click Full Replication Guide
+## 3. Replication Workflow & Execution Commands
 
-To reproduce all quantitative findings, numerical verifications, Monte Carlo robustness tests, and publication-grade figures in a single step, simply run:
-
+### 3.1 One-Click Full Replication
+To run all numerical checks, compute analytical thresholds, execute 10,000 Monte Carlo iterations, and generate all publication figures in a single command:
 ```bash
 python main.py
 ```
 
-### Modular Command-Line Execution
-You can also run specific modules independently using CLI flags:
+---
+
+### 3.2 Reproducing Table 3.1 (Numerical Error Analysis: RK4 vs RK45)
+To reproduce the exact numerical error breakdown reported in **Table 3.1**:
 ```bash
-# 1. Run numerical solver verification (RK4, time-step sensitivity, and SciPy RK45 cross-check)
-python main.py --verify
+python main.py --table3-1
+```
+* **Primary Metric:** Maximum absolute error $\operatorname{MaxAbsErr}_i = \max_t |z_i^{\text{RK4}}(t) - z_i^{\text{RK45}}(t)|$.
+* **Supplementary Metric:** Regularized relative error $\operatorname{RelErr}_{i,t} = \frac{|z_i^{\text{RK4}}(t) - z_i^{\text{RK45}}(t)|}{|z_i^{\text{RK45}}(t)| + 10^{-4}}$, where $10^{-4}$ is a positive regularization constant preventing division by zero near boundary states ($x, y \to 0$).
 
-# 2. Compute closed-form policy thresholds (F*, H*, G*) and Jacobian eigenvalue stability
-python main.py --analytical
+Expected Table 3.1 values:
+- Baseline ($z_0 = [0.5, 0.5]$):
+  - $x(t)$: Max Abs Error = $3.83 \times 10^{-7}$, Max Rel Error = $5.04 \times 10^{-7}$ ($0.00005\%$)
+  - $y(t)$: Max Abs Error = $1.33 \times 10^{-6}$, Max Rel Error = $1.45 \times 10^{-6}$ ($0.00015\%$)
+- Full $5 \times 5$ Grid (25 Initial Conditions):
+  - $x(t)$: Max Abs Error = $2.07 \times 10^{-5}$, Max Rel Error = $6.94 \times 10^{-5}$ ($< 0.007\%$)
+  - $y(t)$: Max Abs Error = $2.89 \times 10^{-5}$, Max Rel Error = $6.61 \times 10^{-5}$ ($< 0.007\%$)
 
-# 3. Execute 10,000 Monte Carlo robustness iterations (reproducing Table 6)
+---
+
+### 3.3 Reproducing Table 6 (Global Monte Carlo Robustness Verification)
+To execute $10,000$ Monte Carlo iterations under $\pm 20\%$ triangular parameter uncertainty:
+```bash
 python main.py --monte-carlo
+```
+Expected Table 6 outputs:
+- **Policy Thresholds (Mean $\pm$ SD [95% CI]):**
+  - $F^* = 7.56 \pm 0.82 \quad [5.97, 9.15]$
+  - $H^* = 8.99 \pm 0.78 \quad [7.46, 10.53]$
+- **Proportion of Parameter Draws Yielding Convergence to Safe State $E_4(1, 1)$:**
+  - Scenario 1 ($H = 0$): **0.00%** (Confirms Theorem 1: Fines alone cannot escape the institutional trap).
+  - Scenario 2 ($H = 10 > H^*$): **79.14%** (Institutional trap dismantled in 100.00% of cases).
+  - Scenario 3 ($H = 14$): **98.14%** (Accelerated convergence and high institutional resilience).
 
-# 4. Generate Figures 1 through 6 in both SVG and PNG format into the figures/ directory
-python main.py --plots
+---
+
+### 3.4 Reproducing Closed-Form Thresholds & Stability
+To display analytical policy thresholds ($F^*, H^*, G^*$) and Jacobian eigenvalues ($\lambda_1, \lambda_2$) at boundary equilibria:
+```bash
+python main.py --analytical
 ```
 
 ---
 
-## 4. Summary of Reproduced Results
+### 3.5 Generating Publication Figures (Figures 1 through 6)
+You can generate each figure individually or produce the entire set at once:
 
-1. **Numerical Verification & Time-Step Sensitivity:**
-   - **SciPy RK45 Cross-Check:** Maximum absolute trajectory error $\max_n \|\mathbf{z}_n^{\text{RK4}} - \mathbf{z}_n^{\text{RK45}}\| < 8.5 \times 10^{-6}$; relative error $< 1.1 \times 10^{-5}$.
-   - **Time-Step Sensitivity ($\Delta t = 0.05 \to 0.025$):** Full trajectory deviation $< 2.7 \times 10^{-5}$; terminal state difference at $t = 50$ is $< 1.2 \times 10^{-15}$ (change $< 0.0001\%$).
-   - **Convergence Criterion:** Successive state difference $\|\mathbf{z}_{n+1} - \mathbf{z}_n\| < 10^{-7}$.
-
-2. **Global Monte Carlo Robustness Verification ($N = 10,000$, matching Table 6):**
-   - **Policy Thresholds:** $F^* = 7.56 \pm 0.82$ (95% CI $[5.97, 9.15]$), $H^* = 8.99 \pm 0.78$ (95% CI $[7.46, 10.53]$).
-   - **Scenario 1 ($H = 0$):** Proportion of parameter draws yielding convergence to $E_4(1,1)$ = **0.00%** (Proving Theorem 1: Punishment alone cannot sustain the safe state).
-   - **Scenario 2 ($H = 10$):** Proportion yielding convergence = **79.14%**; institutional trap $E_1(0,0)$ dismantled = **100.00%**.
-   - **Scenario 3 ($H = 14$):** Proportion yielding convergence = **98.14%**; institutional trap dismantled = **100.00%**.
-
-3. **Publication Figures (Saved in `figures/`):**
-   - `fig1_phase_H0.svg` / `.png`: Phase portrait under Scenario 1 ($H = 0$, trap $E_1(0,0)$).
-   - `fig2_phase_H8.svg` / `.png`: Phase portrait under Scenario 2 ($H = 10 > H^*$, safe state $E_4(1,1)$).
-   - `fig3_phase_H12.svg` / `.png`: Phase portrait under Scenario 3 ($H = 14$, accelerated convergence).
-   - `fig4_timeseries.svg` / `.png`: Comparative dynamic time series for $x(t)$ and $y(t)$.
-   - `fig5_sensitivity_FH.svg` / `.png`: Two-factor interaction heatmap over $(F, H)$ space.
-   - `fig6_sensitivity_G.svg` / `.png`: Linear marginal trade-off between subsidy $G$ and penalty $F^*$.
+| Command | Generated Output | Description |
+|:---|:---|:---|
+| `python main.py --figure 1` | `figures/fig1_phase_H0.svg` / `.png` | **Figure 1:** Phase portrait under Scenario 1 ($H = 0$); all trajectories collapse to trap $E_1(0, 0)$. |
+| `python main.py --figure 2` | `figures/fig2_phase_H8.svg` / `.png` | **Figure 2:** Phase portrait under Scenario 2 ($H = 10 > H^*$); convergence to safe state $E_4(1, 1)$. |
+| `python main.py --figure 3` | `figures/fig3_phase_H12.svg` / `.png` | **Figure 3:** Phase portrait under Scenario 3 ($H = 14$); accelerated convergence to $E_4(1, 1)$. |
+| `python main.py --figure 4` | `figures/fig4_timeseries.svg` / `.png` | **Figure 4:** Comparative time-series trajectories for $x(t)$ and $y(t)$ across scenarios. |
+| `python main.py --figure 5` | `figures/fig5_sensitivity_FH.svg` / `.png` | **Figure 5:** Two-dimensional interaction parameter heatmap over $(F, H)$ space. |
+| `python main.py --figure 6` | `figures/fig6_sensitivity_G.svg` / `.png` | **Figure 6:** Linear marginal trade-off between safety capital subsidy $G$ and minimum penalty $F^*$. |
+| `python main.py --plots` | All 6 figures | Generates all figures in both vector SVG and 300 DPI PNG format. |
 
 ---
 
-## 5. Calibrated Parameter Benchmark Table
+## 4. Calibrated Parameter Benchmark Table
 
 | Parameter | Economic / Institutional Meaning | Baseline Value | Delphi Expert Range (Round 2) | Administrative Benchmark Reference |
 |:---:|:---|:---:|:---:|:---|
@@ -108,16 +142,27 @@ python main.py --plots
 | $L_r$ | Political accountability loss for undetected accidents | **3.0** | $[2.8, 3.2]$ | Politburo Regulation 69-QD/TW on cadre disciplinary measures |
 | $H$ | Reputation incentive / promotion tournament points | **10.0** | $[9.6, 11.4]$ | Decree 90/2020/ND-CP on civil servant merit evaluation |
 
+*Note: Probabilities $p = 0.80$ and $q = 0.20$ represent expert-informed baseline estimates elicited from 15 senior mining and inspection experts (Kendall's $W = 0.824, p < 0.001$), rather than directly observed empirical frequencies.*
+
 ---
 
-## 6. License & Academic Citation
+## 5. License
 
-This simulation package is distributed under the MIT License. If you use this code or data in your academic work, please cite:
+This replication package and simulation software are licensed under the **MIT License**.  
+See the full license terms in [LICENSE](LICENSE).
+
+---
+
+## 6. Citation
+
+If you use this replication code or datasets in your research, please cite:
+
 ```bibtex
 @article{hung_chien_2026_coal_safety,
   title={Evolutionary Game Analysis of Coal Mine Safety Supervision in a Transition Economy: The Roles of Institutional Costs, Political Accountability, and Reputation Incentives},
   author={Nguyen, Phi Hung and Trinh, Van Chien},
   journal={Safety Science / Resources Policy},
-  year={2026}
+  year={2026},
+  url={https://github.com/tvchien1710/coal-safety-egt}
 }
 ```

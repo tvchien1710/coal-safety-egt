@@ -1,9 +1,7 @@
 # Evolutionary Game Analysis of Coal Mine Safety Supervision in a Transition Economy: Pure Python Replication Package
 
 This repository contains the complete 100% pure Python simulation code, parameter input datasets, and reproduction workflow for the academic paper:
-> **"Phân tích trò chơi tiến hóa về giám sát an toàn mỏ than trong nền kinh tế chuyển đổi: Vai trò của chi phí thể chế, trách nhiệm chính trị và cơ chế thưởng danh tiếng"**  
-> *(Evolutionary Game Analysis of Coal Mine Safety Supervision in a Transition Economy: The Roles of Institutional Costs, Political Accountability, and Reputation Incentives)*  
-> Target Journal: **Safety Science / Resources Policy (Elsevier - Q1)**
+> *Evolutionary Game Analysis of Coal Mine Safety Supervision in a Transition Economy: The Roles of Institutional Costs, Political Accountability, and Reputation Incentives*  
 
 ---
 

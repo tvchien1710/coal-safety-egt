@@ -1,0 +1,21 @@
+# Manuscripts & Review drafts (Submit directly to Journal, do not push to public code repo)
+paper.md
+draft.md
+paper_en.html
+paper_vi.html
+
+# Legacy / auxiliary JavaScript scripts
+*.js
+package.json
+package-lock.json
+node_modules/
+
+# Intermediate files & cache
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+*.log
+scratch/
+monte_carlo_results.json
